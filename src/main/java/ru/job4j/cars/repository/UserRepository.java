@@ -15,92 +15,129 @@ public class UserRepository {
 
     /**
      * Сохранить в базе.
+     *
      * @param user пользователь.
      * @return пользователь с id.
      */
     public User create(User user) {
-        try (Session session = sf.openSession()) {
+        Session session = sf.openSession();
+        try {
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
+            return user;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
         }
-        return user;
     }
 
     /**
      * Обновить в базе пользователя.
+     *
      * @param user пользователь.
      */
     public void update(User user) {
-        try (Session session = sf.openSession()) {
+        Session session = sf.openSession();
+        try {
             session.beginTransaction();
             session.update(user);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     /**
      * Удалить пользователя по id.
+     *
      * @param userId ID
      */
     public void delete(int userId) {
-        try (Session session = sf.openSession()) {
+        Session session = sf.openSession();
+        try {
             session.beginTransaction();
-            User user = session.get(User.class, userId);
-            if (user != null) {
-                session.delete(user);
-            }
+            Query<User> query = session.createQuery("DELETE FROM User WHERE id = :userId");
+            query.setParameter("userId", userId);
+            query.executeUpdate();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
         }
-
     }
 
     /**
      * Список пользователь отсортированных по id.
+     *
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
-        try (Session session = sf.openSession()) {
+        Session session = sf.openSession();
+        try {
             Query<User> query = session.createQuery("FROM User ORDER BY id", User.class);
             return query.list();
+        } finally {
+            session.close();
         }
     }
 
     /**
      * Найти пользователя по ID
+     *
      * @return пользователь.
      */
     public Optional<User> findById(int userId) {
-       try (Session session = sf.openSession()) {
-           User user = session.get(User.class, userId);
-           return Optional.empty();
-       }
+        Session session = sf.openSession();
+        try {
+            User user = session.get(User.class, userId);
+            if (user != null) {
+                return Optional.of(user);
+            }
+            return Optional.empty();
+        } finally {
+            session.close();
+        }
     }
 
     /**
      * Список пользователей по login LIKE %key%
+     *
      * @param key key
      * @return список пользователей.
      */
     public List<User> findByLikeLogin(String key) {
-        try (Session session = sf.openSession()) {
-            Query<User> query = session.createQuery("FROM User WHERE login LIKE :key", User.class);
-            query.setParameter("key", "%" + key + "%");
-            query.setParameter("key", "%" + key + "%");
+        Session session = sf.openSession();
+        try {
+            Query<User> query = session.createQuery("FROM User WHERE login = :key", User.class);
+            query.setParameter("key", key);
             return query.list();
+        } finally {
+            session.close();
         }
     }
 
     /**
      * Найти пользователя по login.
+     *
      * @param login login.
      * @return Optional or user.
      */
     public Optional<User> findByLogin(String login) {
-        try (Session session = sf.openSession()) {
+        Session session = sf.openSession();
+        try {
             Query<User> query = session.createQuery("FROM User WHERE login = :login", User.class);
             query.setParameter("login", login);
             return query.uniqueResultOptional();
+        } finally {
+            session.close();
         }
     }
 }

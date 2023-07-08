@@ -87,8 +87,7 @@ public class UserRepository {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -109,8 +108,7 @@ public class UserRepository {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -130,8 +128,7 @@ public class UserRepository {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
@@ -151,8 +148,7 @@ public class UserRepository {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
     }

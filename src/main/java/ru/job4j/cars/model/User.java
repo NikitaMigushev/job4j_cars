@@ -13,4 +13,7 @@ public class User {
     private int id;
     private String login;
     private String password;
+    @ManyToOne
+    @JoinColumn(name = "auto_user_id")
+    private Post post;
 }

@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -34,12 +34,14 @@ public class Post {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "auto_post_id")
-    private List<PriceHistory> priceHistory = new ArrayList<>();
-    @ManyToMany
+    private Set<PriceHistory> priceHistory = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "participates",
             joinColumns = { @JoinColumn(name = "auto_post_id") },
             inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
     )
-    private List<User> participates = new ArrayList<>();
+    private Set<User> participates = new HashSet<>();
+    @Column(name = "has_photo")
+    boolean hasPhoto;
 }

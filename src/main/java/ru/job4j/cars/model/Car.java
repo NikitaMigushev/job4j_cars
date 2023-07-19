@@ -20,7 +20,8 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-
+    private String brand;
+    private String model;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "engine_id", unique = true)
     private Engine engine;

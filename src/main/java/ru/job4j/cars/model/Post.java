@@ -43,5 +43,5 @@ public class Post {
     )
     private Set<User> participates = new HashSet<>();
     @Column(name = "has_photo")
-    boolean hasPhoto;
+    private int photoId;
 }

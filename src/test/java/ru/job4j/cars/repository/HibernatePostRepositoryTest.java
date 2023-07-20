@@ -114,14 +114,14 @@ class HibernatePostRepositoryTest {
     @Test
     void getPostsWithPhoto() {
         Post post1 = new Post();
-        post1.setHasPhoto(true);
+        post1.setPhotoId(1);
         post1.setDescription("has photo");
         var savedPost = postRepository.save(post1);
         Post post2 = new Post();
-        post2.setHasPhoto(false);
         post2.setDescription("no photo");
         postRepository.save(post2);
         Collection<Post> result = postRepository.getPostsWithPhoto();
+        assertThat(result).hasSize(1);
         assertThat(result.iterator().next().getDescription()).isEqualTo(savedPost.get().getDescription());
     }
 

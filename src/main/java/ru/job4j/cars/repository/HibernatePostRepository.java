@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -78,16 +79,8 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> getLastDayPosts() {
         try {
-            LocalDateTime yesterday = LocalDateTime.now().minusDays(1)
-                    .withHour(0)
-                    .withMinute(0)
-                    .withSecond(0)
-                    .withNano(0);
-            LocalDateTime today = LocalDateTime.now()
-                    .withHour(0)
-                    .withMinute(0)
-                    .withSecond(0)
-                    .withNano(0);
+            LocalDateTime yesterday = LocalDate.now().minusDays(1).atStartOfDay();
+            LocalDateTime today = LocalDate.now().atStartOfDay();
             String query = "SELECT p FROM Post p  LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.created > :yesterday AND p.created < :today";
             Map<String, Object> params = new HashMap<>();
             params.put("yesterday", yesterday);
@@ -102,7 +95,7 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> getPostsWithPhoto() {
         try {
-            String query = "SELECT p FROM Post p  LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.hasPhoto = true";
+            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.photoId != 0";
             return crudRepository.query(query, Post.class);
         } catch (Exception e) {
             e.printStackTrace();

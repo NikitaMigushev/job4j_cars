@@ -1,0 +1,97 @@
+@startuml cinema
+package "model" #DDDDDD {
+
+    Class User {
+            private int id;
+            private String fullName;
+            private String email;
+            private String password
+            private LocalDateTime creationDateTime;
+        }
+
+    Class Photo {
+     private int id;
+     private String name;
+     private String path;
+            }
+
+    Class Post {
+     private int id;
+     String description;
+     LocalDateTime created = LocalDateTime.now();
+     private User user;
+     private Car car;
+      private Set<PriceHistory> priceHistory
+       private Set<User> participates
+       boolean hasPhoto;
+        }
+
+    Class Car {
+     private int id;
+     private Brand brand;
+     private Model model;
+     private CarBody carBody;
+     private int year;
+     private int mileage;
+     private String VIN;
+     private Engine engine;
+     private Transmission transmission;
+     private Post post;
+     private Set<Owner> owners
+     }
+
+    Class Brand {
+        }
+
+    Class Model {
+
+        }
+
+    Class CarBody {
+        }
+
+    Class Color {
+        }
+
+    Class Engine {
+        }
+
+    Class Transmission {
+        }
+
+    Class PriceHistory {
+        }
+
+    Class Owner {
+        }
+}
+
+package "dto" #DDDDDD {
+
+}
+
+package "repository" #DDDDDD {
+
+}
+
+package "service" #DDDDDD {
+
+}
+
+
+package "filter" #DDDDDD {
+
+}
+
+package "configuration" #DDDDDD {
+
+}
+
+
+package "controller" #DDDDDD {
+}
+
+package "templates" {
+}
+
+@enduml

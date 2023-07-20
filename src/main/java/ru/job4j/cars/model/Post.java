@@ -42,6 +42,6 @@ public class Post {
             inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
     )
     private Set<User> participates = new HashSet<>();
-    @Column(name = "has_photo")
+    @Column(name = "photo_id")
     private int photoId;
 }

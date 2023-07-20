@@ -23,6 +23,7 @@
     <include file="scripts/013_ddl_alter_car_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/014_ddl_alter_post_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/015_ddl_create_photo_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/016_ddl_alter_auto_post_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

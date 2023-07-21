@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cars.model.Car;
+import ru.job4j.cars.model.Photo;
 import ru.job4j.cars.model.Post;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,8 @@ class HibernatePostRepositoryTest {
 
     private static CarRepository carRepository;
 
+    private static PhotoRepository photoRepository;
+
     @BeforeAll
     public static void setup() throws Exception {
         Configuration configuration = new Configuration();
@@ -41,6 +44,7 @@ class HibernatePostRepositoryTest {
         session = sf.openSession();
         postRepository = new HibernatePostRepository(new CrudRepository(sf));
         carRepository = new HibernateCarRepository(new CrudRepository(sf));
+        photoRepository = new HibernatePhotoRepository(new CrudRepository(sf));
     }
 
     @AfterEach
@@ -113,8 +117,10 @@ class HibernatePostRepositoryTest {
 
     @Test
     void getPostsWithPhoto() {
+        Photo photo = new Photo(1, "test", "path");
+        var savedPhoto = photoRepository.save(photo);
         Post post1 = new Post();
-        post1.setPhotoId(1);
+        post1.setPhoto(photo);
         post1.setDescription("has photo");
         var savedPost = postRepository.save(post1);
         Post post2 = new Post();

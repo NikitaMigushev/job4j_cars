@@ -95,7 +95,7 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> getPostsWithPhoto() {
         try {
-            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.photoId != 0";
+            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.photo.id IS NOT NULL";
             return crudRepository.query(query, Post.class);
         } catch (Exception e) {
             e.printStackTrace();

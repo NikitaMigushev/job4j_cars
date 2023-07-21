@@ -24,7 +24,7 @@ package "model" #DDDDDD {
         private int price;
         private Set<PriceHistory> priceHistory
         private Set<User> participates
-        private int photoId;
+        private Photo photo;
         }
 
     Class Car {
@@ -88,7 +88,7 @@ package "model" #DDDDDD {
     Post "1" *-- "many" PriceHistory
     Post "1" *-- "1" Photo
     Post "1" *-- "1" User : createdByUser
-    Post "1" *-- "many" User : participates
+    Post "many" *-- "many" User : participates
 
     Car "1" *-- "1" Brand
     Car "1" *-- "1" Model
@@ -97,7 +97,6 @@ package "model" #DDDDDD {
     Car "1" *-- "1" CarBody
     Car "1" *-- "many" Owner
     Car "1" *-- "1" Color
-
 }
 
 package "dto" #DDDDDD {

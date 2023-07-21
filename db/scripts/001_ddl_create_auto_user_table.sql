@@ -1,6 +1,7 @@
-create table auto_user
+create table AUTO_USER
 (
-    id        serial primary key,
-    login varchar        not null,
-    password  varchar        not null
+    id serial primary key,
+    full_name varchar(255) not null,
+    email varchar(255) not null,
+    password varchar not null
 );

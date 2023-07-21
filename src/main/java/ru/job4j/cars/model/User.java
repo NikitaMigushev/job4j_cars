@@ -3,6 +3,8 @@ package ru.job4j.cars.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "auto_user")
@@ -13,7 +15,7 @@ public class User {
     private int id;
     private String login;
     private String password;
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "auto_user_id")
-    private Post post;
+    private Set<Post> posts = new HashSet<>();
 }

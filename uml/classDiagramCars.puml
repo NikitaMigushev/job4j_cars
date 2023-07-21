@@ -1,0 +1,367 @@
+@startuml cinema
+package "model" #DDDDDD {
+
+    Class User {
+        private int id;
+        private String fullName;
+        private String email;
+        private String password
+        private LocalDateTime creationDateTime;
+        }
+
+    Class Photo {
+     private int id;
+     private String name;
+     private String path;
+            }
+
+    Class Post {
+        private int id;
+        String description;
+        LocalDateTime created;
+        private User user;
+        private Car car;
+        private int price;
+        private Set<PriceHistory> priceHistory
+        private Set<User> participates
+        private int photoId;
+        }
+
+    Class Car {
+     private int id;
+     private Brand brand;
+     private Model model;
+     private CarBody carBody;
+     private int year;
+     private int mileage;
+     private String VIN;
+     private Engine engine;
+     private Transmission transmission;
+     private Post post;
+     private Set<Owner> owners
+     }
+
+    Class Brand {
+        private int id;
+        private String name unique;
+        }
+
+    Class Model {
+        private int id;
+        private String name unique;
+        }
+
+    Class CarBody {
+        private int id;
+        private String name unique;
+        }
+
+    Class Color {
+        private int id;
+        private String name unique;
+        }
+
+    Class Engine {
+        private int id;
+        private String name unique;
+        }
+
+    Class Transmission {
+        private int id;
+        private String name unique;
+        }
+
+    Class PriceHistory {
+        private int id;
+        private int price;
+        private LocalDateTime start_period
+        private LocalDateTime end_period;
+        private Post post;
+        }
+
+    Class Owner {
+    private int id;
+    private String name;
+        }
+
+    Post "1" *-- "1" Car
+    Post "1" *-- "many" PriceHistory
+    Post "1" *-- "1" Photo
+    Post "1" *-- "1" User : createdByUser
+    Post "1" *-- "many" User : participates
+
+    Car "1" *-- "1" Brand
+    Car "1" *-- "1" Model
+    Car "1" *-- "1" Engine
+    Car "1" *-- "1" Transmission
+    Car "1" *-- "1" CarBody
+    Car "1" *-- "many" Owner
+    Car "1" *-- "1" Color
+
+}
+
+package "dto" #DDDDDD {
+    class PhotoDto {
+        private int name;
+        private byte[] content;
+    }
+}
+
+package "repository" #DDDDDD {
+    class UserRepository {
+        Optional<User> create(User user);
+        boolean update(User user);
+        boolean delete(int userId);
+        List<User> findAllOrderById();
+        Optional<User> findById(int userId);
+        List<User> findByLikeLogin(String key);
+        Optional<User> findByLogin(String login);
+        Collection<User> findAll();
+    }
+
+    class PhotoRepository {
+       Optional<Photo>  save(Photo photo);
+       Optional<Photo> findById(int id);
+       boolean update(Photo photo);
+       boolean deleteById(int id);
+       Collection<Photo> findAll();
+        }
+
+    class PostRepository {
+        Optional<Post> save(Post post);
+        boolean update(Post post);
+        boolean deleteById(int id);
+        Optional<Post> findById(int id);
+        Collection<Post> findAll();
+        Collection<Post> getLastDayPosts();
+        Collection<Post> getPostsWithPhoto();
+        Collection<Post> getPostsByBrand(String brand);
+            }
+
+    class CarRepository {
+        Optional<Car> save(Car car);
+        boolean update(Car car);
+        boolean deleteById(int id);
+        Optional<Car> findById(int id);
+        Collection<Car> findAll();
+            }
+
+    class BrandRepository {
+        Optional<Brand> save(Brand brand);
+        boolean update(Brand brand);
+        boolean deleteById(int brandId);
+        Optional<Brand> findById(int brandId);
+        Collection<Brand> findAll();
+                }
+
+  class ModelRepository {
+        Optional<Model> save(Model model);
+        boolean update(Model model);
+        boolean deleteById(int modelId);
+        Optional<Model> findById(int modelId);
+        Collection<Model> findAll();
+    }
+
+    class CarBodyRepository {
+        Optional<Car> save(Car car);
+        boolean update(Car car);
+        boolean deleteById(int id);
+        Optional<Car> findById(int id);
+        Collection<Car> findAll();
+        }
+
+    class ColorRepository {
+        Optional<Color> save(Color color);
+        boolean update(Color color);
+        boolean deleteById(int id);
+        Optional<Color> findById(int id);
+        Collection<Color> findAll();
+            }
+
+    class EngineRepository {
+        Optional<Engine> save(Engine engine);
+        boolean update(Engine engine);
+        boolean deleteById(int id);
+        Optional<Engine> findById(int id);
+        Collection<Engine> findAll();
+            }
+
+    class TransmissionRepository {
+         Optional<Transmission> save(Transmission transmission);
+         boolean update(Transmission transmission);
+         boolean deleteById(int id);
+         Optional<Transmission> findById(int id);
+         Collection<Transmission> findAll();
+                }
+
+    class PriceHistoryRepository {
+           Optional<PriceHistory> save(PriceHistory priceHistory);
+           boolean update(PriceHistory priceHistory);
+           boolean deleteById(int id);
+           Optional<PriceHistory> findById(int id);
+           Collection<PriceHistory> findAll();
+                }
+
+    class OwnerRepository {
+        Optional<Owner> save(Owner owner);
+        boolean update(Owner owner);
+        boolean deleteById(int ownerId);
+        Optional<Owner> findById(int ownerId);
+        Collection<Owner> findAll();
+                }
+}
+
+package "service" #DDDDDD {
+    class UserService {
+        Optional<User> create(User user);
+        boolean update(User user);
+        boolean delete(int userId);
+        List<User> findAllOrderById();
+        Optional<User> findById(int userId);
+        List<User> findByLikeLogin(String key);
+        Optional<User> findByLogin(String login);
+        Collection<User> findAll();
+    }
+
+    class PhotoService {
+       Optional<Photo>  save(Photo photo);
+        Optional<Photo> findById(int id);
+        boolean update(Photo photo);
+        boolean deleteById(int id);
+        Collection<Photo> findAll();
+        }
+
+    class PostService {
+        Optional<Post> save(Post post);
+        boolean update(Post post);
+        boolean deleteById(int id);
+        Optional<Post> findById(int id);
+        Collection<Post> findAll();
+        Collection<Post> getLastDayPosts();
+        Collection<Post> getPostsWithPhoto();
+        Collection<Post> getPostsByBrand(String brand);
+            }
+
+    class CarService {
+        Optional<Car> save(Car car);
+        boolean update(Car car);
+        boolean deleteById(int id);
+        Optional<Car> findById(int id);
+        Collection<Car> findAll();
+            }
+
+    class BrandService {
+        Optional<Brand> save(Brand brand);
+        boolean update(Brand brand);
+        boolean deleteById(int brandId);
+        Optional<Brand> findById(int brandId);
+        Collection<Brand> findAll();
+                }
+
+    class ModelService {
+        Optional<Model> save(Model model);
+        boolean update(Model model);
+        boolean deleteById(int modelId);
+        Optional<Model> findById(int modelId);
+        Collection<Model> findAll();
+    }
+
+    class CarBodyService {
+        Optional<Car> save(Car car);
+        boolean update(Car car);
+        boolean deleteById(int id);
+        Optional<Car> findById(int id);
+        Collection<Car> findAll();
+        }
+
+    class ColorService {
+            Optional<Color> save(Color color);
+            boolean update(Color color);
+            boolean deleteById(int id);
+            Optional<Color> findById(int id);
+            Collection<Color> findAll();
+            }
+
+    class EngineService {
+        Optional<Engine> save(Engine engine);
+        boolean update(Engine engine);
+        boolean deleteById(int id);
+        Optional<Engine> findById(int id);
+        Collection<Engine> findAll();
+            }
+
+    class TransmissionService {
+            Optional<Transmission> save(Transmission transmission);
+            boolean update(Transmission transmission);
+            boolean deleteById(int id);
+            Optional<Transmission> findById(int id);
+            Collection<Transmission> findAll();
+                }
+
+    class PriceHistoryService {
+           Optional<PriceHistory> save(PriceHistory priceHistory);
+           boolean update(PriceHistory priceHistory);
+           boolean deleteById(int id);
+           Optional<PriceHistory> findById(int id);
+           Collection<PriceHistory> findAll();
+                }
+
+    class OwnerService {
+        Optional<Owner> save(Owner owner);
+        boolean update(Owner owner);
+        boolean deleteById(int ownerId);
+        Optional<Owner> findById(int ownerId);
+        Collection<Owner> findAll();
+                }
+}
+
+package "filter" #DDDDDD {
+ Class AuthorizationFilter {
+    }
+
+    Class SessionFilter {
+    }
+
+
+}
+
+package "configuration" #DDDDDD {
+    Class HibernateConfiguration {
+    }
+}
+
+package "controller" #DDDDDD {
+   Class UserController {
+      @GetMapping("/login") public String getLoginPage()
+      @PostMapping("/login") public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request)
+      @GetMapping("/logout") public String logout(HttpSession session)
+      @GetMapping("/register") public ModelAndView getRegistrationPage()
+      @PostMapping("/register") public String register(Model model, @ModelAttribute User user)
+   }
+
+   Class PostController {
+        @GetMapping getListPost()
+        @GetMapping getFilterPost()
+        @GetMapping getCreatePost()
+        @PostMapping createPost()
+        @GetMapping getEditPost()
+        @PostMapping updatePost()
+        @GetMapping getViewPost()
+        @PostMapping markSold()
+   }
+}
+
+package "templates" {
+    Class Index {
+    }
+
+    Class CreateTask {
+    }
+
+    Class EditTask {
+    }
+
+    Class ViewTask {
+    }
+}
+@enduml

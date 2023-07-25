@@ -126,6 +126,19 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        try {
+            return crudRepository.optional(
+                    "from User u where u.email = :fEmail", User.class,
+                    Map.of("fEmail", email)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public Collection<User> findAll() {
         try {
             return crudRepository.query("FROM User", User.class);
@@ -133,5 +146,19 @@ public class HibernateUserRepository implements UserRepository {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        try {
+            return crudRepository.optional(
+                    "FROM User u WHERE u.email = :fEmail AND u.password = :fPassword",
+                    User.class,
+                    Map.of("fEmail", email, "fPassword", password)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

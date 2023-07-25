@@ -157,4 +157,25 @@ class HibernateUserRepositoryTest {
         assertThat(foundUsers.get(0).getFullName()).isEqualTo("John Doe");
         assertThat(foundUsers.get(1).getFullName()).isEqualTo("Alice Johnson");
     }
+
+    @Test
+    public void whenFindByEmailThenSuccess () {
+        User user = new User();
+        user.setEmail("test@test.ru");
+        userRepository.create(user);
+        Optional<User> foundUser = userRepository.findByEmail(user.getEmail());
+        assertThat(foundUser).isPresent();
+        assertThat(foundUser.get().getId()).isEqualTo(user.getId());
+    }
+
+    @Test
+    public void whenFindByEmailAndPasswordThenSuccess() {
+        User user = new User();
+        user.setEmail("test@test.ru");
+        user.setPassword("123");
+        userRepository.create(user);
+        Optional<User> foundUser = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        assertThat(foundUser).isPresent();
+        assertThat(foundUser.get().getId()).isEqualTo(user.getId());
+    }
 }

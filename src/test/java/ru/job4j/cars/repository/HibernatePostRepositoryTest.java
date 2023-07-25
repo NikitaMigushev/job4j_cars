@@ -8,6 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.job4j.cars.model.Brand;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Photo;
 import ru.job4j.cars.model.Post;
@@ -32,6 +33,8 @@ class HibernatePostRepositoryTest {
 
     private static PhotoRepository photoRepository;
 
+    private static BrandRepository brandRepository;
+
     @BeforeAll
     public static void setup() throws Exception {
         Configuration configuration = new Configuration();
@@ -45,6 +48,7 @@ class HibernatePostRepositoryTest {
         postRepository = new HibernatePostRepository(new CrudRepository(sf));
         carRepository = new HibernateCarRepository(new CrudRepository(sf));
         photoRepository = new HibernatePhotoRepository(new CrudRepository(sf));
+        brandRepository = new HibernateBrandRepository(new CrudRepository(sf));
     }
 
     @AfterEach
@@ -134,9 +138,13 @@ class HibernatePostRepositoryTest {
     @Test
     void getPostsByBrand() {
         Car car1 = new Car();
-        car1.setBrand("Toyota");
+        Brand brand = new Brand(1, "Toyota");
+        brandRepository.save(brand);
+        car1.setBrand(brand);
         Car car2 = new Car();
-        car2.setBrand("Mercedes");
+        Brand brand2 = new Brand(2, "Mercedes");
+        brandRepository.save(brand2);
+        car2.setBrand(brand2);
         var savedCar1 = carRepository.save(car1);
         var savedCar2 = carRepository.save(car2);
         Post post1 = new Post();

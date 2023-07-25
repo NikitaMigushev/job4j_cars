@@ -20,18 +20,30 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-    private String brand;
-    private String model;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "engine_id", unique = true)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "model_id")
+    private Model model;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_body_id")
+    private CarBody carBody;
+    @Column(name = "car_year")
+    private int carYear;
+    private int mileage;
+    private String vin;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "engine_id")
     private Engine engine;
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transmission_id")
+    private Transmission transmission;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", unique = true)
     private Post post;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "history_owner", joinColumns = {
+    @JoinTable(name = "car_owner", joinColumns = {
             @JoinColumn(name = "car_id", nullable = false, updatable = false)},
             inverseJoinColumns = {
                     @JoinColumn(name = "owner_id", nullable = false, updatable = false)})

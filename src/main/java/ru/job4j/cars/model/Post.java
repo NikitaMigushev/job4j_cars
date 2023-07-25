@@ -27,21 +27,20 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "auto_user")
     private User user;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private Car car;
-
+    private float price;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "auto_post_id")
     private Set<PriceHistory> priceHistory = new HashSet<>();
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "participates",
+            name = "USER_POST_SUBSCRIPTION",
             joinColumns = { @JoinColumn(name = "auto_post_id") },
             inverseJoinColumns = { @JoinColumn(name = "auto_user_id") }
     )
-    private Set<User> participates = new HashSet<>();
+    private Set<User> subscribers = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;

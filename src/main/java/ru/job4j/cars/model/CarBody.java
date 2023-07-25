@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ENGINE")
+@Table(name = "CAR_BODY")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Engine {
+public class CarBody {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

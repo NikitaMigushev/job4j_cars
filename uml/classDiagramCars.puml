@@ -32,7 +32,7 @@ package "model" #DDDDDD {
      private Brand brand;
      private Model model;
      private CarBody carBody;
-     private int year;
+     private int car_year;
      private int mileage;
      private String VIN;
      private Engine engine;

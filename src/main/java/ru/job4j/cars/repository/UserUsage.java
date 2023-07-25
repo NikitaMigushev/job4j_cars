@@ -14,7 +14,7 @@ public class UserUsage {
                 .buildMetadata().buildSessionFactory()) {
             var userRepository = new HibernateUserRepository(new CrudRepository(sf));
             var user = new User();
-            user.setLogin("admin");
+            user.setFullName("admin");
             user.setPassword("admin");
             userRepository.create(user);
             userRepository.findAllOrderById()

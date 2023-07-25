@@ -53,7 +53,7 @@ public class HibernatePostRepository implements PostRepository {
     public Optional<Post> findById(int id) {
         try {
             return crudRepository.optional(
-                    "SELECT p FROM Post p LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.id = :fId",
+                    "SELECT p FROM Post p WHERE p.id = :fId",
                     Post.class,
                     Map.of("fId", id)
             );
@@ -67,7 +67,7 @@ public class HibernatePostRepository implements PostRepository {
     public Collection<Post> findAll() {
         try {
             return crudRepository.query(
-                    "SELECT p FROM Post p  LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates",
+                    "SELECT p FROM Post p",
                     Post.class
             );
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class HibernatePostRepository implements PostRepository {
         try {
             LocalDateTime yesterday = LocalDate.now().minusDays(1).atStartOfDay();
             LocalDateTime today = LocalDate.now().atStartOfDay();
-            String query = "SELECT p FROM Post p  LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.created > :yesterday AND p.created < :today";
+            String query = "SELECT p FROM Post p WHERE p.created > :yesterday AND p.created < :today";
             Map<String, Object> params = new HashMap<>();
             params.put("yesterday", yesterday);
             params.put("today", today);
@@ -95,7 +95,7 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> getPostsWithPhoto() {
         try {
-            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.user LEFT JOIN FETCH p.priceHistory LEFT JOIN FETCH p.participates WHERE p.photo.id IS NOT NULL";
+            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.photo WHERE p.photo.id IS NOT NULL";
             return crudRepository.query(query, Post.class);
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public Collection<Post> getPostsByBrand(String brand) {
         try {
-            String query = "SELECT p FROM Post p WHERE p.car.brand = :brand";
+            String query = "SELECT p FROM Post p LEFT JOIN FETCH p.car c WHERE c.brand.name = :brand";
             Map<String, Object> params = new HashMap<>();
             params.put("brand", brand);
             return crudRepository.query(query, Post.class, params);

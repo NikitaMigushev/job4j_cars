@@ -13,7 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String login;
+    @Column(name = "full_name")
+    private String fullName;
+    private String email;
     private String password;
     @OneToMany
     @JoinColumn(name = "auto_user_id")

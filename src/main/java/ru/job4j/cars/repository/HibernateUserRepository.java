@@ -98,7 +98,7 @@ public class HibernateUserRepository implements UserRepository {
     public List<User> findByLikeLogin(String key) {
         try {
             return crudRepository.query(
-                    "from User where login like :fKey", User.class,
+                    "from User u where u.fullName like :fKey", User.class,
                     Map.of("fKey", "%" + key + "%")
             );
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public class HibernateUserRepository implements UserRepository {
     public Optional<User> findByLogin(String login) {
         try {
             return crudRepository.optional(
-                    "from User where login = :fLogin", User.class,
+                    "from User u where u.fullName = :fLogin", User.class,
                     Map.of("fLogin", login)
             );
         } catch (Exception e) {

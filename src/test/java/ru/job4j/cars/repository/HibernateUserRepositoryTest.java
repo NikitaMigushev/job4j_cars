@@ -47,7 +47,7 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenCreateThenGetSame() {
         User user = new User();
-        user.setLogin("John Doe");
+        user.setFullName("John Doe");
         user.setPassword("password");
         Optional<User> savedUser = userRepository.create(user);
         assertThat(savedUser).isPresent();
@@ -57,21 +57,21 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenFindByIdThenSuccess() {
         User user = new User();
-        user.setLogin("John Doe");
+        user.setFullName("John Doe");
         user.setPassword("password");
         userRepository.create(user);
         Optional<User> foundUser = userRepository.findById(user.getId());
         assertThat(foundUser).isPresent();
-        assertThat(foundUser.get().getLogin()).isEqualTo(user.getLogin());
+        assertThat(foundUser.get().getFullName()).isEqualTo(user.getFullName());
     }
 
     @Test
     public void whenFindByLoginSuccess() {
         User user = new User();
-        user.setLogin("John Doe");
+        user.setFullName("John Doe");
         user.setPassword("password");
         userRepository.create(user);
-        Optional<User> foundUser = userRepository.findByLogin(user.getLogin());
+        Optional<User> foundUser = userRepository.findByLogin(user.getFullName());
         assertThat(foundUser).isPresent();
         assertThat(foundUser.get().getId()).isEqualTo(user.getId());
     }
@@ -79,7 +79,7 @@ class HibernateUserRepositoryTest {
     @Test
     public void testDelete() {
         User user = new User();
-        user.setLogin("John Doe");
+        user.setFullName("John Doe");
         user.setPassword("password");
         userRepository.create(user);
         boolean isDeleted = userRepository.delete(user.getId());
@@ -91,11 +91,11 @@ class HibernateUserRepositoryTest {
     @Test
     public void testFindAll() {
         User user1 = new User();
-        user1.setLogin("John Doe");
+        user1.setFullName("John Doe");
         user1.setPassword("password");
         userRepository.create(user1);
         User user2 = new User();
-        user2.setLogin("John Doe");
+        user2.setFullName("John Doe");
         user2.setPassword("password");
         userRepository.create(user2);
         Collection<User> allUsers = userRepository.findAll();
@@ -105,30 +105,30 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenUpdateThenSuccess() {
         User user = new User();
-        user.setLogin("John Doe");
+        user.setFullName("John Doe");
         user.setPassword("password");
         userRepository.create(user);
-        user.setLogin("Jane Smith");
+        user.setFullName("Jane Smith");
         user.setPassword("newPassword");
         userRepository.update(user);
         Optional<User> updatedUser = userRepository.findById(user.getId());
         assertThat(updatedUser).isPresent();
-        assertThat(updatedUser.get().getLogin()).isEqualTo("Jane Smith");
+        assertThat(updatedUser.get().getFullName()).isEqualTo("Jane Smith");
         assertThat(updatedUser.get().getPassword()).isEqualTo("newPassword");
     }
 
     @Test
     public void whenFindAllOrderByIdThenSuccess() {
         User user1 = new User();
-        user1.setLogin("John Doe");
+        user1.setFullName("John Doe");
         user1.setPassword("password");
         userRepository.create(user1);
         User user2 = new User();
-        user2.setLogin("Jane Smith");
+        user2.setFullName("Jane Smith");
         user2.setPassword("password123");
         userRepository.create(user2);
         User user3 = new User();
-        user3.setLogin("Alice Johnson");
+        user3.setFullName("Alice Johnson");
         user3.setPassword("qwerty");
         userRepository.create(user3);
         List<User> users = userRepository.findAllOrderById();
@@ -141,20 +141,20 @@ class HibernateUserRepositoryTest {
     @Test
     public void whenFindByLikeLoginThenSuccess() {
         User user1 = new User();
-        user1.setLogin("John Doe");
+        user1.setFullName("John Doe");
         user1.setPassword("password");
         userRepository.create(user1);
         User user2 = new User();
-        user2.setLogin("Jane Smith");
+        user2.setFullName("Jane Smith");
         user2.setPassword("password123");
         userRepository.create(user2);
         User user3 = new User();
-        user3.setLogin("Alice Johnson");
+        user3.setFullName("Alice Johnson");
         user3.setPassword("qwerty");
         userRepository.create(user3);
         List<User> foundUsers = userRepository.findByLikeLogin("Jo");
         assertThat(foundUsers).hasSize(2);
-        assertThat(foundUsers.get(0).getLogin()).isEqualTo("John Doe");
-        assertThat(foundUsers.get(1).getLogin()).isEqualTo("Alice Johnson");
+        assertThat(foundUsers.get(0).getFullName()).isEqualTo("John Doe");
+        assertThat(foundUsers.get(1).getFullName()).isEqualTo("Alice Johnson");
     }
 }

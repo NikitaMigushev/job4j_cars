@@ -18,9 +18,15 @@
     <include file="scripts/008_ddl_create_photo_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009_ddl_create_car_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddl_create_auto_post_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/011_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/012_ddl_create_user_post_subscription_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/013_ddl_create_car_owner_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/011_ddl_create_car_passport_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/012_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/013_ddl_create_car_passport_owner_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/014_ddl_create_user_post_subscription_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/015_dml_insert_into_car_body_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/016_dml_insert_into_brand_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/017_ddl_create_color_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/018_dml_insert_into_color_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/019_dml_insert_into_transmission_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

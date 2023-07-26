@@ -159,7 +159,7 @@ class HibernateUserRepositoryTest {
     }
 
     @Test
-    public void whenFindByEmailThenSuccess () {
+    public void whenFindByEmailThenSuccess() {
         User user = new User();
         user.setEmail("test@test.ru");
         userRepository.create(user);

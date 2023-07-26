@@ -37,9 +37,17 @@ package "model" #DDDDDD {
      private String VIN;
      private Engine engine;
      private Transmission transmission;
+     private CarPassport carPassport;
      private Post post;
-     private Set<Owner> owners
      }
+
+     Class CarPassport {
+      private int id;
+      private String passportNumber;
+      private Owner currentOwner;
+      private Car car;
+      private Set<Owner> owners
+      }
 
     Class Brand {
         private int id;
@@ -82,20 +90,23 @@ package "model" #DDDDDD {
     Class Owner {
     private int id;
     private String name;
+    private Set<Car> cars;
         }
 
     Post "1" *-- "1" Car
     Post "1" *-- "many" PriceHistory
     Post "1" *-- "1" Photo
     Post "1" *-- "1" User : createdByUser
-    Post "many" *-- "many" User : participates
+    Post "many" *--* "many" User : participates
 
     Car "1" *-- "1" Brand
     Car "1" *-- "1" Model
     Car "1" *-- "1" Engine
     Car "1" *-- "1" Transmission
     Car "1" *-- "1" CarBody
-    Car "1" *-- "many" Owner
+    CarPassport "1" --> "1" Car
+    CarPassport "many" *--* "many" Owner : Set<Owner> owners
+    CarPassport "1" <-- "1" Owner  : currentOwner
     Car "1" *-- "1" Color
 }
 

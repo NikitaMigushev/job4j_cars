@@ -54,7 +54,7 @@ public class HibernateCarRepository implements CarRepository {
     public Optional<Car> findById(int id) {
         try {
             return crudRepository.optional(
-                    "SELECT c FROM Car c LEFT JOIN FETCH c.owners WHERE c.id = :fId",
+                    "SELECT c FROM Car c WHERE c.id = :fId",
                     Car.class,
                     Map.of("fId", id)
             );
@@ -68,7 +68,7 @@ public class HibernateCarRepository implements CarRepository {
     public Collection<Car> findAll() {
         try {
             return crudRepository.query(
-                    "SELECT c FROM Car c LEFT JOIN FETCH c.owners",
+                    "SELECT c FROM Car c",
                     Car.class
             );
         } catch (Exception e) {

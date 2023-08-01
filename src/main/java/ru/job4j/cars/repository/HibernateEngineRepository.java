@@ -76,4 +76,18 @@ public class HibernateEngineRepository implements EngineRepository {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public Optional<Engine> findByName(String name) {
+        try {
+            return crudRepository.optional(
+                    "SELECT e FROM Engine e WHERE e.name = :fName",
+                    Engine.class,
+                    Map.of("fName", name)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 }

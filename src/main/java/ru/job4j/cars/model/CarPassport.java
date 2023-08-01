@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "COLOR")
+@Table(name = "CAR_PASSPORT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +17,7 @@ public class CarPassport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "passport_number")
     private String passportNumber;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "current_owner_id")

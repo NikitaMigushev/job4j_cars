@@ -18,29 +18,40 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "model_id")
-    private Model model;
+    private CarModel carModel;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_body_id")
     private CarBody carBody;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "color_id")
+    private Color color;
+
     @Column(name = "car_year")
     private int carYear;
+
     private int mileage;
     private String vin;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "engine_id")
     private Engine engine;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id", unique = true)
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private Post post;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id", unique = true)
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private CarPassport carPassport;
 }

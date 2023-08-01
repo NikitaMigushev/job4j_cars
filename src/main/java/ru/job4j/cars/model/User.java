@@ -1,5 +1,6 @@
 package ru.job4j.cars.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Set;
 @Entity
 @Table(name = "auto_user")
 @Data
+@JsonIgnoreProperties("posts")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

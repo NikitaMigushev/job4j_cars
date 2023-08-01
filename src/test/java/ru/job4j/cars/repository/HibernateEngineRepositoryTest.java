@@ -85,4 +85,14 @@ class HibernateEngineRepositoryTest {
         Collection<Engine> engines = engineRepository.findAll();
         assertThat(engines).hasSize(2);
     }
+
+    @Test
+    void findByName() {
+        Engine engine = new Engine();
+        engine.setName("Test");
+        var savedEngine = engineRepository.save(engine);
+        Optional<Engine> foundEngine = engineRepository.findByName("Test");
+        assertThat(foundEngine).isPresent();
+        assertThat(foundEngine.get().getName()).isEqualTo("Test");
+    }
 }

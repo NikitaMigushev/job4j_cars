@@ -11,4 +11,5 @@ public interface EngineRepository {
     boolean deleteById(int id);
     Optional<Engine> findById(int id);
     Collection<Engine> findAll();
+    Optional<Engine> findByName(String name);
 }

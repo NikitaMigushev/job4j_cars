@@ -8,23 +8,23 @@
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+    <include file="scripts/000_ddl_create_photo_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/001_ddl_create_auto_user_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_ddl_create_brand_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/003_ddl_create_model_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_ddl_create_car_model_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_car_body_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_engine_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_tansmission_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/007_ddl_create_owner_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/008_ddl_create_photo_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_create_color_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_create_owner_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/009_ddl_create_car_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddl_create_auto_post_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_ddl_create_car_passport_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/012_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/013_ddl_create_car_passport_owner_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/014_ddl_create_user_post_subscription_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/015_dml_insert_into_car_body_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/014_ddl_create_price_history_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/015_ddl_create_user_post_subscription_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/016_dml_insert_into_brand_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/017_ddl_create_color_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/017_dml_insert_into_car_body_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/018_dml_insert_into_color_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/019_dml_insert_into_transmission_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

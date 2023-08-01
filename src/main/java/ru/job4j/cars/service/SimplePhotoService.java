@@ -2,6 +2,7 @@ package ru.job4j.cars.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.PhotoDto;
 import ru.job4j.cars.model.Photo;
 import ru.job4j.cars.repository.PhotoRepository;
@@ -31,6 +32,18 @@ public class SimplePhotoService implements PhotoService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public PhotoDto convertMultipartFileToPhotoDto(MultipartFile file) {
+        String name = file.getOriginalFilename();
+        byte[] content = null;
+        try {
+            content = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new PhotoDto(name, content);
     }
 
     @Override

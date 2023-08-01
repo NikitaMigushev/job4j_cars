@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "owners")
+@Table(name = "owner")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +16,5 @@ public class Owner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String passport;
 }

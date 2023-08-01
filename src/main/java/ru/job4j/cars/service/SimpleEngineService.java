@@ -15,7 +15,14 @@ public class SimpleEngineService implements EngineService {
 
     @Override
     public Optional<Engine> save(Engine engine) {
-        return engineRepository.save(engine);
+        Optional<Engine> result;
+        var foundEngine = engineRepository.findByName(engine.getName());
+        if (foundEngine.isPresent()) {
+            result = foundEngine;
+        } else {
+            result = engineRepository.save(engine);
+        }
+        return result;
     }
 
     @Override

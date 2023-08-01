@@ -2,7 +2,7 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.Owner;
+import ru.job4j.cars.model.Color;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HibernateOwnerRepository implements OwnerRepository {
+public class HibernateColorRepository implements ColorRepository {
     private final CrudRepository crudRepository;
 
     @Override
-    public Optional<Owner> save(Owner owner) {
+    public Optional<Color> save(Color color) {
         try {
-            crudRepository.run(session -> session.save(owner));
-            return Optional.of(owner);
+            crudRepository.run(session -> session.save(color));
+            return Optional.of(color);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,9 +26,9 @@ public class HibernateOwnerRepository implements OwnerRepository {
     }
 
     @Override
-    public boolean update(Owner owner) {
+    public boolean update(Color color) {
         try {
-            crudRepository.run(session -> session.merge(owner));
+            crudRepository.run(session -> session.merge(color));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,11 +37,11 @@ public class HibernateOwnerRepository implements OwnerRepository {
     }
 
     @Override
-    public boolean deleteById(int ownerId) {
+    public boolean deleteById(int id) {
         try {
             crudRepository.run(
-                    "delete from Owner where id = :fId",
-                    Map.of("fId", ownerId)
+                    "delete from Color where id = :fId",
+                    Map.of("fId", id)
             );
             return true;
         } catch (Exception e) {
@@ -51,11 +51,11 @@ public class HibernateOwnerRepository implements OwnerRepository {
     }
 
     @Override
-    public Optional<Owner> findById(int id) {
+    public Optional<Color> findById(int id) {
         try {
             return crudRepository.optional(
-                    "SELECT o FROM Owner o WHERE o.id = :fId",
-                    Owner.class,
+                    "SELECT c FROM Color c WHERE c.id = :fId",
+                    Color.class,
                     Map.of("fId", id)
             );
         } catch (Exception e) {
@@ -65,11 +65,11 @@ public class HibernateOwnerRepository implements OwnerRepository {
     }
 
     @Override
-    public Collection<Owner> findAll() {
+    public Collection<Color> findAll() {
         try {
             return crudRepository.query(
-                    "SELECT o FROM Owner o",
-                    Owner.class
+                    "SELECT c FROM Color c",
+                    Color.class
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,16 +78,17 @@ public class HibernateOwnerRepository implements OwnerRepository {
     }
 
     @Override
-    public Optional<Owner> findByPassport(String passport) {
+    public Optional<Color> findByName(String name) {
         try {
             return crudRepository.optional(
-                    "SELECT o FROM Owner o WHERE o.passport = :fPassport",
-                    Owner.class,
-                    Map.of("fPassport", passport)
+                    "SELECT c FROM Color c WHERE c.name = :fName",
+                    Color.class,
+                    Map.of("fName", name)
             );
         } catch (Exception e) {
             e.printStackTrace();
         }
         return Optional.empty();
     }
+
 }

@@ -85,4 +85,14 @@ class HibernateOwnerRepositoryTest {
         Collection<Owner> owners = ownerRepository.findAll();
         assertThat(owners).hasSize(2);
     }
+
+    @Test
+    void findByPassport() {
+        Owner owner = new Owner();
+        owner.setPassport("ABC");
+        var savedOwner = ownerRepository.save(owner);
+        var foundOwner = ownerRepository.findByPassport(owner.getPassport());
+        assertThat(foundOwner).isPresent();
+        assertThat(foundOwner.get()).isEqualTo(owner);
+    }
 }

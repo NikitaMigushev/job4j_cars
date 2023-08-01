@@ -15,7 +15,14 @@ public class SimpleOwnerService implements OwnerService {
 
     @Override
     public Optional<Owner> save(Owner owner) {
-        return ownerRepository.save(owner);
+        Optional<Owner> result;
+        var foundOwner = ownerRepository.findByPassport(owner.getPassport());
+        if (foundOwner.isPresent()) {
+            result = foundOwner;
+        } else {
+            result = ownerRepository.save(owner);
+        }
+        return result;
     }
 
     @Override
@@ -36,5 +43,10 @@ public class SimpleOwnerService implements OwnerService {
     @Override
     public Collection<Owner> findAll() {
         return ownerRepository.findAll();
+    }
+
+    @Override
+    public Optional<Owner> findByPassport(String passport) {
+        return ownerRepository.findByPassport(passport);
     }
 }

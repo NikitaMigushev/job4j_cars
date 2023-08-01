@@ -1,12 +1,13 @@
 package ru.job4j.cars.service;
 
+import ru.job4j.cars.dto.PhotoDto;
 import ru.job4j.cars.model.Post;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface PostService {
-    Optional<Post> save(Post post);
+    Optional<Post> save(Post post, PhotoDto photo);
     boolean update(Post post);
     boolean deleteById(int id);
     Optional<Post> findById(int id);

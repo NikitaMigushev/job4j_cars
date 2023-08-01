@@ -11,4 +11,5 @@ public interface OwnerService {
     boolean deleteById(int ownerId);
     Optional<Owner> findById(int ownerId);
     Collection<Owner> findAll();
+    Optional<Owner> findByPassport(String passport);
 }

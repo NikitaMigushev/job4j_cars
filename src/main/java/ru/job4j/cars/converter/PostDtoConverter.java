@@ -1,6 +1,7 @@
 package ru.job4j.cars.converter;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.model.*;
 import ru.job4j.cars.service.*;
@@ -8,6 +9,7 @@ import ru.job4j.cars.service.*;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Component
 public class PostDtoConverter {
     private final BrandService brandService;
     private final CarBodyService carBodyService;

@@ -1,10 +1,12 @@
 package ru.job4j.cars.validator;
 
+import org.springframework.stereotype.Component;
 import ru.job4j.cars.dto.PostDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class PostDtoValidator {
     public List<String> validate(PostDto postDto) {
         List<String> errors = new ArrayList<>();

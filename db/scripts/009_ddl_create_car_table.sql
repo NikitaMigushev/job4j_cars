@@ -8,5 +8,6 @@ create table CAR (
     mileage int,
     vin varchar,
     engine_id int references ENGINE(id),
-    transmission_id int references TRANSMISSION(id)
+    transmission_id int references TRANSMISSION(id),
+    car_passport_id int references CAR_PASSPORT(id)
 );

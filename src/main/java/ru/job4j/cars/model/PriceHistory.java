@@ -2,10 +2,8 @@ package ru.job4j.cars.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,11 +13,13 @@ import java.time.LocalDateTime;
 public class PriceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Include
+    @EqualsAndHashCode.Include
     private int id;
-    BigInteger before;
-    BigInteger after;
-    LocalDateTime created = LocalDateTime.now();
+    private float price;
+    @Column(name = "start_period")
+    private LocalDateTime startPeriod;
+    @Column(name = "end_period")
+    private LocalDateTime endPeriod;
     @ManyToOne
     @JoinColumn(name = "auto_post_id")
     private Post post;

@@ -89,7 +89,7 @@ class SimplePhotoServiceTest {
         byte[] photoContent = "Test content".getBytes();
         PhotoDto photoDto = new PhotoDto(photoName, photoContent);
         Optional<Photo> savedPhoto = photoService.save(photoDto);
-        var foundPhoto = photoService.findById(savedPhoto.get().getId());
+        var foundPhoto = photoService.findPhotoDtoById(savedPhoto.get().getId());
         assertTrue(foundPhoto.isPresent());
         assertThat(foundPhoto.get().getContent()).isEqualTo(photoContent);
     }
@@ -100,10 +100,10 @@ class SimplePhotoServiceTest {
         byte[] photoContent = "Test content".getBytes();
         PhotoDto photoDto = new PhotoDto(photoName, photoContent);
         Optional<Photo> savedPhoto = photoService.save(photoDto);
-        var foundPhotoBeforeDelete = photoService.findById(savedPhoto.get().getId());
+        var foundPhotoBeforeDelete = photoService.findPhotoDtoById(savedPhoto.get().getId());
         assertTrue(foundPhotoBeforeDelete.isPresent());
         photoService.deleteById(savedPhoto.get().getId());
-        var foundPhotoAfterDelete = photoService.findById(savedPhoto.get().getId());
+        var foundPhotoAfterDelete = photoService.findPhotoDtoById(savedPhoto.get().getId());
         assertTrue(foundPhotoAfterDelete.isEmpty());
     }
 }

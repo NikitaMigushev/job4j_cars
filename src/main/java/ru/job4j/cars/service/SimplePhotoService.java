@@ -66,7 +66,7 @@ public class SimplePhotoService implements PhotoService {
     }
 
     @Override
-    public Optional<PhotoDto> findById(int id) {
+    public Optional<PhotoDto> findPhotoDtoById(int id) {
         var fileOptional = photoRepository.findById(id);
         if (fileOptional.isEmpty()) {
             return Optional.empty();
@@ -74,6 +74,11 @@ public class SimplePhotoService implements PhotoService {
         var content = readFileAsBytes(fileOptional.get().getPath());
         return Optional.of(new PhotoDto(fileOptional.get().getName(), content));
     }
+
+    public Optional<Photo> findPhotoById(int id) {
+        return photoRepository.findById(id);
+    }
+
 
     private byte[] readFileAsBytes(String path) {
         try {
@@ -93,7 +98,8 @@ public class SimplePhotoService implements PhotoService {
         return photoRepository.deleteById(id);
     }
 
-    private void deleteFile(String path) {
+    @Override
+    public void deleteFile(String path) {
         try {
             Files.deleteIfExists(Path.of(path));
         } catch (IOException e) {

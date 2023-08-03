@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface PhotoService {
     Optional<Photo> save(PhotoDto photoDto);
-    Optional<PhotoDto> findById(int id);
+    Optional<PhotoDto> findPhotoDtoById(int id);
     boolean deleteById(int id);
     PhotoDto convertMultipartFileToPhotoDto(MultipartFile file);
+    void deleteFile(String path);
+    Optional<Photo> findPhotoById(int id);
 }

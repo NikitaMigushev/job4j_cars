@@ -15,4 +15,7 @@ public interface PostService {
     Collection<Post> getLastDayPosts();
     Collection<Post> getPostsWithPhoto();
     Collection<Post> getPostsByBrand(String brand);
+    boolean update(Post post, PhotoDto photo);
+    boolean markSold(Post post);
+
 }

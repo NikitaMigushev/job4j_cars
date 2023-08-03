@@ -52,6 +52,7 @@ public class Car {
     @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private Post post;
 
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_passport_id")
     private CarPassport carPassport;
 }

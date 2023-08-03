@@ -14,4 +14,5 @@ public interface PostRepository {
     Collection<Post> getLastDayPosts();
     Collection<Post> getPostsWithPhoto();
     Collection<Post> getPostsByBrand(String brand);
+    boolean markSold(Post post);
 }

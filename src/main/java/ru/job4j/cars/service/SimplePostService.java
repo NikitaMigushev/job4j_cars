@@ -32,6 +32,13 @@ public class SimplePostService implements PostService {
     }
 
     @Override
+    public boolean update(Post post, PhotoDto photo) {
+        photoService.deleteFile(post.getPhoto().getPath());
+        saveNewPhoto(post, photo);
+        return postRepository.update(post);
+    }
+
+    @Override
     public boolean deleteById(int id) {
         return postRepository.deleteById(id);
     }
@@ -59,5 +66,10 @@ public class SimplePostService implements PostService {
     @Override
     public Collection<Post> getPostsByBrand(String brand) {
         return postRepository.getPostsByBrand(brand);
+    }
+
+    @Override
+    public boolean markSold(Post post) {
+        return postRepository.markSold(post);
     }
 }

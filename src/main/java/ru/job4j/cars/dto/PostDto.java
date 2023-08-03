@@ -9,20 +9,23 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
+    private int postId;
+    private int carId;
+    private int userId;
     private float price;
-    private int brand;
-    private String carModel;
-    private int carBody;
+    private int brandId;
+    private String carModelName;
+    private int carBodyId;
     private int carYear;
     private int mileage;
     private String vin;
-    private int color;
-    private String engine;
-    private int transmission;
-    private String carPassport;
+    private int colorId;
+    private String engineName;
+    private int transmissionId;
+    private String carPassportNumber;
     private String ownerName;
-    private String ownerPassport;
+    private String ownerPassportNumber;
     private String description;
+    private int currentPhotoId;
     private MultipartFile photo;
-    private int user;
 }

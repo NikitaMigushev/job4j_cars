@@ -1,10 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- Зависимости Bootstrap -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+    <title th:text="${post.car.brand.name + ' ' + post.car.carModel.name}"></title>
 </head>
 <body>
+<div class="container-fluid p-0">
+    <header th:insert="blocks/header :: header"></header>
+    <div class="container">
+        <div class="row my-4">
+            <h3 th:text="${post.car.brand.name + ' ' + post.car.carModel.name}">Просмотр объявления</h3>
+            <div class="col-3">
+                <img th:src="@{'/photo/' + ${post.photo.id}}" alt="No image" width="300">
+            </div>
+            <div class="col-5">
+                <p><b>Дата публикации: </b> <span th:text="${#temporals.format(post.created, 'dd.MM.yy HH:mm')}"></span></p>
+                <p><b>Автор объявления: </b> <span th:text="${post.user.fullName}"></span></p>
+                <p><b>Статус: </b> <span th:if="${post.sold}"> Продано</span>
+                    <span th:unless="${post.sold}"> Активно</span></p>
+                <p><b>Цена: </b><span th:text="${post.price}"></span></p>
+                <p><b>Бренд: </b> <span th:text="${post.car.brand.name}"></span></p>
+                <p><b>Модель: </b> <span th:text="${post.car.carModel.name}"></span></p>
+                <p><b>Кузов: </b> <span th:text="${post.car.carBody.name}"></span></p>
+                <p><b>Двигатель: </b> <span th:text="${post.car.Engine.name}"></span></p>
+                <p><b>Трансмиссия: </b> <span th:text="${post.car.transmission.name}"></span></p>
+                <p><b>Цвет: </b> <span th:text="${post.car.color.name}"></span></p>
+                <p><b>Год: </b> <span th:text="${post.car.carYear}"></span></p>
+                <p><b>Пробег: </b> <span th:text="${post.car.mileage}"></span></p>
+                <p><b>VIN: </b> <span th:text="${post.car.vin}"></span></p>
+                <p><b>ПТС: </b> <span th:text="${post.car.carPassport.passportNumber}"></span></p>
+                <p><b>Владелец по ПТС: </b> <span th:text="${post.car.carPassport.currentOwner.name}"></span></p>
+                <p><b>Описание: </b> <span th:text="${post.description}"></span></p>
+            </div>
+            <div class="row my-4" th:if="${user.fullName == post.user.fullName}">
+                <div class="col-2">
+                    <a class="btn btn-primary w-100" th:href="@{'/cars/edit/' + ${post.id}}" >Редактировать</a>
+                </div>
+                <div class="col-2">
+                    <a class="btn btn-success w-100" th:href="@{'/cars/markSold/' + ${post.id}}" >Продано</a>
+                </div>
+            </div>
 
+
+
+        </div>
+    </div>
+    <footer class="text-center text-lg-start fixed-bottom" th:insert="blocks/footer :: footer"></footer>
+</div>
 </body>
 </html>

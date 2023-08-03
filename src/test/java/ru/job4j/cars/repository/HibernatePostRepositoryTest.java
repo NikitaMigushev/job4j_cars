@@ -158,4 +158,13 @@ class HibernatePostRepositoryTest {
         Collection<Post> result = postRepository.getPostsByBrand("Toyota");
         assertThat(result.iterator().next().getDescription()).isEqualTo(savedPost1.get().getDescription());
     }
+
+    @Test
+    void testSold() {
+        Post post = new Post();
+        Optional<Post> savedPost = postRepository.save(post);
+        postRepository.markSold(post);
+        Optional<Post> foundPost = postRepository.findById(savedPost.get().getId());
+        assertThat(foundPost.get().isSold()).isTrue();
+    }
 }

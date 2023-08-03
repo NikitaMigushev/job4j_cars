@@ -115,4 +115,16 @@ public class HibernatePostRepository implements PostRepository {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public boolean markSold(Post post) {
+        try {
+            post.setSold(true);
+            crudRepository.run(session -> session.update(post));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

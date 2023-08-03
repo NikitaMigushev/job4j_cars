@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.job4j.cars.service.PhotoService;
 
 @RestController
-@RequestMapping("/photos")
+@RequestMapping("/photo")
 @AllArgsConstructor
 public class PhotoController {
     private final PhotoService photoService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
-        var contentOptional = photoService.findById(id);
+        var contentOptional = photoService.findPhotoDtoById(id);
         if (contentOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

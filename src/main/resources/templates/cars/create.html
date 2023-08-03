@@ -15,36 +15,37 @@
     <header th:insert="blocks/header :: header"></header>
     <div class="container">
         <form class="mt-3" th:action="@{/cars/create}" th:object="${postDto}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="userId" th:value="${user.id}" />
             <div class="mb-3">
                 <label for="formFile"><b>Фото</b></label>
                 <input class="form-control form-control-sm w-100" type="file" id="formFile" th:field="*{photo}" required>
             </div>
             <div class="mb-3">
-                <label for="price"><b>Price</b></label>
+                <label for="price"><b>Цена</b></label>
                 <input class="form-control" type="text" id="price" th:field="*{price}" required>
             </div>
             <div class="mb-3">
-                <label for="brand"><b>Brand</b></label>
-                <select class="form-control" id="brand" th:field="*{brand}">
+                <label for="brand"><b>Бренд</b></label>
+                <select class="form-control" id="brand" th:field="*{brandId}">
                     <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="carModel"><b>Car Model</b></label>
-                <input class="form-control" type="text" id="carModel" th:field="*{carModel}" required>
+                <label for="carModel"><b>Модель</b></label>
+                <input class="form-control" type="text" id="carModel" th:field="*{carModelName}" required>
             </div>
             <div class="mb-3">
-                <label for="carBody"><b>Car Body</b></label>
-                <select class="form-control" id="carBody" th:field="*{carBody}">
+                <label for="carBody"><b>Кузов</b></label>
+                <select class="form-control" id="carBody" th:field="*{carBodyId}">
                     <option th:each="carBody : ${carBodies}" th:value="${carBody.id}" th:text="${carBody.name}"></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="carYear"><b>Car Year</b></label>
+                <label for="carYear"><b>Год</b></label>
                 <input class="form-control" type="text" id="carYear" th:field="*{carYear}" required>
             </div>
             <div class="mb-3">
-                <label for="mileage"><b>Mileage</b></label>
+                <label for="mileage"><b>Пробег</b></label>
                 <input class="form-control" type="text" id="mileage" th:field="*{mileage}" required>
             </div>
             <div class="mb-3">
@@ -52,24 +53,24 @@
                 <input class="form-control" type="text" id="vin" th:field="*{vin}" required>
             </div>
             <div class="mb-3">
-                <label for="color"><b>Color</b></label>
-                <select class="form-control" id="color" th:field="*{color}">
+                <label for="color"><b>Цвет</b></label>
+                <select class="form-control" id="color" th:field="*{colorId}">
                     <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="engine"><b>Engine</b></label>
-                <input class="form-control" type="text" id="engine" th:field="*{engine}" required>
+                <label for="engine"><b>Двигатель</b></label>
+                <input class="form-control" type="text" id="engine" th:field="*{engineName}" required>
             </div>
             <div class="mb-3">
-                <label for="color"><b>Color</b></label>
-                <select class="form-control" id="transmission" th:field="*{transmission}">
+                <label for="color"><b>Цвет</b></label>
+                <select class="form-control" id="transmission" th:field="*{transmissionId}">
                     <option th:each="transmission : ${transmissions}" th:value="${transmission.id}" th:text="${transmission.name}"></option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="carPassport"><b>Car Passport</b></label>
-                <input class="form-control" type="text" id="carPassport" th:field="*{carPassport}" required>
+                <label for="carPassport"><b>ПТС</b></label>
+                <input class="form-control" type="text" id="carPassport" th:field="*{carPassportNumber}" required>
             </div>
             <div class="mb-3">
                 <label for="ownerName"><b>Имя владельца</b></label>
@@ -77,10 +78,10 @@
             </div>
             <div class="mb-3">
                 <label for="ownerPassport"><b>Паспорт владельца</b></label>
-                <input class="form-control" type="text" id="ownerPassport" th:field="*{ownerPassport}" required>
+                <input class="form-control" type="text" id="ownerPassport" th:field="*{ownerPassportNumber}" required>
             </div>
             <div class="mb-3">
-                <label for="description"><b>Description</b></label>
+                <label for="description"><b>Описание</b></label>
                 <textarea class="form-control" type="text" id="description" th:field="*{description}" required></textarea>
             </div>
             <div class="mb-3 row">

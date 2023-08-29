@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.model.*;
+import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.service.*;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class PostDtoConverter {
     private final TransmissionService transmissionService;
     private final CarService carService;
     private final UserService userService;
-    private final PostService postService;
+    private final PostRepository postRepository;
 
     public Post convertPostDtoToPost(PostDto postDto) {
         /*Creating Car*/
@@ -61,10 +62,10 @@ public class PostDtoConverter {
         post.setUser(userService.findById(postDto.getUserId()).get());
         post.setCar(car);
         post.setPrice(postDto.getPrice());
-        if (postDto.getPostId() != 0) {
-            Post foundPost = postService.findById(postDto.getPostId()).get();
+        if (postDto.getId() != 0) {
+            Post foundPost = postRepository.findById(postDto.getId()).get();
             post.setCreated(foundPost.getCreated());
-            post.setId(postDto.getPostId());
+            post.setId(postDto.getId());
             post.setPhoto(foundPost.getPhoto());
         }
         return post;
@@ -73,7 +74,7 @@ public class PostDtoConverter {
     public PostDto convertPostToPostDto(Post post) {
         PostDto postDto = new PostDto();
         postDto.setCarId(post.getCar().getId());
-        postDto.setPostId(post.getId());
+        postDto.setId(post.getId());
         postDto.setUserId(post.getUser().getId());
         postDto.setPrice(post.getPrice());
         postDto.setBrandId(post.getCar().getBrand().getId());
@@ -92,5 +93,4 @@ public class PostDtoConverter {
         postDto.setCurrentPhotoId(post.getPhoto().getId());
         return postDto;
     }
-
 }

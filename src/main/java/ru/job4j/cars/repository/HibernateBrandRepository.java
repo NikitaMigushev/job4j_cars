@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Brand;
 
@@ -12,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class HibernateBrandRepository implements BrandRepository {
+    private static final Logger logger = LoggerFactory.getLogger(HibernateBrandRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -20,7 +23,7 @@ public class HibernateBrandRepository implements BrandRepository {
             crudRepository.run(session -> session.save(brand));
             return Optional.of(brand);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save brand: " + brand, e);
         }
         return Optional.empty();
     }
@@ -31,7 +34,7 @@ public class HibernateBrandRepository implements BrandRepository {
             crudRepository.run(session -> session.merge(brand));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update brand: " + brand, e);
         }
         return false;
     }
@@ -45,7 +48,7 @@ public class HibernateBrandRepository implements BrandRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to deleteById brand with id: " + id, e);
         }
         return false;
     }
@@ -72,8 +75,12 @@ public class HibernateBrandRepository implements BrandRepository {
                     Brand.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll brands", e);
         }
         return Collections.emptyList();
+    }
+
+    private void logError(String message, Throwable e) {
+        logger.error(message, e);
     }
 }

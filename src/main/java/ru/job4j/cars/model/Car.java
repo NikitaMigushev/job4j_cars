@@ -49,10 +49,14 @@ public class Car {
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
-    private Post post;
+//    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
+//    private Post post;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_passport_id")
     private CarPassport carPassport;
+
+    public Car(int carId) {
+        this.id = carId;
+    }
 }

@@ -2,10 +2,13 @@ package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.cars.converter.ModelMapperPostDtoConverter;
 import ru.job4j.cars.dto.PhotoDto;
+import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.repository.PostRepository;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -14,11 +17,35 @@ import java.util.Optional;
 public class SimplePostService implements PostService {
     private final PostRepository postRepository;
     private final PhotoService photoService;
+    private final CarModelService carModelService;
+    private final EngineService engineService;
+    private final OwnerService ownerService;
+    private final CarPassportService carPassportService;
+    private final CarService carService;
+    private final ModelMapperPostDtoConverter converter;
+
 
     @Override
     public Optional<Post> save(Post post, PhotoDto photo) {
         saveNewPhoto(post, photo);
         return postRepository.save(post);
+    }
+
+    public Optional<Post> save(PostDto postDto, PhotoDto photo) {
+        Post post = converter.convertPostDtoToPost(postDto);
+        var savedCarModel = carModelService.save(post.getCar().getCarModel());
+        var savedEngine = engineService.save(post.getCar().getEngine());
+        var savedOwner = ownerService.save(post.getCar().getCarPassport().getCurrentOwner());
+        var carPassport = post.getCar().getCarPassport();
+        carPassport.setCurrentOwner(savedOwner.get());
+        var savedCarPassport = carPassportService.save(carPassport);
+        var car = post.getCar();
+        car.setCarModel(savedCarModel.get());
+        car.setEngine(savedEngine.get());
+        car.setCarPassport(savedCarPassport.get());
+        var savedCar = carService.save(car);
+        post.setCar(savedCar.get());
+        return save(post, photo);
     }
 
     private void saveNewPhoto(Post post, PhotoDto photo) {
@@ -36,6 +63,20 @@ public class SimplePostService implements PostService {
         photoService.deleteFile(post.getPhoto().getPath());
         saveNewPhoto(post, photo);
         return postRepository.update(post);
+    }
+
+    @Override
+    public boolean update(PostDto postDto) {
+        Post post = converter.convertPostDtoToPost(postDto);
+        try {
+            if (!postDto.getPhoto().isEmpty()) {
+                return update(post, new PhotoDto(postDto.getPhoto().getOriginalFilename(), postDto.getPhoto().getBytes()));
+            }
+            return update(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

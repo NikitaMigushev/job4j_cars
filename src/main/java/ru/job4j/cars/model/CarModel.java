@@ -19,4 +19,8 @@ public class CarModel {
     @EqualsAndHashCode.Include
     private int id;
     private String name;
+
+    public CarModel(String name) {
+        this.name = name;
+    }
 }

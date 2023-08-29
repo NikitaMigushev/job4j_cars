@@ -50,4 +50,18 @@ public class Post {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    public Post(int id, LocalDateTime created, boolean sold, float price, String description, User user, Car car) {
+        this.id = id;
+        this.created = created;
+        this.sold = sold;
+        this.price = price;
+        this.description = description;
+        this.user = user;
+        this.car = car;
+    }
+
+    public Post(Photo photo) {
+        this.photo = photo;
+    }
 }

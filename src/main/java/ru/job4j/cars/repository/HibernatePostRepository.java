@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
@@ -11,6 +13,8 @@ import java.util.*;
 @Repository
 @AllArgsConstructor
 public class HibernatePostRepository implements PostRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(HibernateBrandRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -19,7 +23,7 @@ public class HibernatePostRepository implements PostRepository {
             crudRepository.run(session -> session.save(post));
             return Optional.of(post);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save Post: " + post, e);
         }
         return Optional.empty();
     }
@@ -30,7 +34,7 @@ public class HibernatePostRepository implements PostRepository {
             crudRepository.run(session -> session.merge(post));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save update: " + post, e);
         }
         return false;
     }
@@ -126,5 +130,9 @@ public class HibernatePostRepository implements PostRepository {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private void logError(String message, Throwable e) {
+        logger.error(message, e);
     }
 }

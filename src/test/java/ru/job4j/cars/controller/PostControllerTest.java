@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
+import ru.job4j.cars.converter.ModelMapperPostDtoConverter;
 import ru.job4j.cars.converter.PostDtoConverter;
 import ru.job4j.cars.service.*;
 import ru.job4j.cars.validator.PostDtoValidator;
@@ -64,6 +65,9 @@ class PostControllerTest {
     @InjectMocks
     private PostController postController;
 
+    @Mock
+    private ModelMapperPostDtoConverter converter;
+
     @BeforeEach
     public void init() {
         userService = mock(UserService.class);
@@ -79,21 +83,16 @@ class PostControllerTest {
         ownerService = mock(OwnerService.class);
         colorService = mock(ColorService.class);
         postDtoConverter = mock(PostDtoConverter.class);
+        converter = mock(ModelMapperPostDtoConverter.class);
         model = mock(Model.class);
         postController = new PostController(
-                userService,
                 postService,
-                carService,
                 brandService,
-                carModelService,
                 carBodyService,
-                engineService,
                 transmissionService,
-                carPassportService,
-                ownerService,
                 colorService,
                 postDtoValidator,
-                postDtoConverter
+                converter
         );
         session = mock(HttpSession.class);
     }

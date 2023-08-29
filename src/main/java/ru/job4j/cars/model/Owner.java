@@ -21,4 +21,9 @@ public class Owner {
     private String name;
     @EqualsAndHashCode.Include
     private String passport;
+
+    public Owner(String name, String passport) {
+        this.name = name;
+        this.passport = passport;
+    }
 }

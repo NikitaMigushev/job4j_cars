@@ -32,4 +32,15 @@ public class CarPassport {
             inverseJoinColumns = {
                     @JoinColumn(name = "owner_id", nullable = false, updatable = false)})
     private Set<Owner> owners = new HashSet<>();
+
+    public CarPassport(int id, String passportNumber, Owner currentOwner) {
+        this.id = id;
+        this.passportNumber = passportNumber;
+        this.currentOwner = currentOwner;
+    }
+
+    public CarPassport(String passportNumber, Owner currentOwner) {
+        this.passportNumber = passportNumber;
+        this.currentOwner = currentOwner;
+    }
 }

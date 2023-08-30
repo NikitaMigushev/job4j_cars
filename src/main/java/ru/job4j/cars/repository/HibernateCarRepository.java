@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Car;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class HibernateCarRepository implements CarRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateCarRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -20,7 +24,7 @@ public class HibernateCarRepository implements CarRepository {
             crudRepository.run(session -> session.save(car));
             return Optional.of(car);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save car: " + car, e);
         }
         return Optional.empty();
     }
@@ -31,7 +35,7 @@ public class HibernateCarRepository implements CarRepository {
             crudRepository.run(session -> session.merge(car));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save update: " + car, e);
         }
         return false;
     }
@@ -45,7 +49,7 @@ public class HibernateCarRepository implements CarRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save deleteById: " + id, e);
         }
         return false;
     }
@@ -59,7 +63,7 @@ public class HibernateCarRepository implements CarRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,8 +76,13 @@ public class HibernateCarRepository implements CarRepository {
                     Car.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll: ", e);
         }
         return Collections.emptyList();
     }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
+    }
+
 }

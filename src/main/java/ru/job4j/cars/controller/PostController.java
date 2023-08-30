@@ -1,6 +1,8 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,12 @@ import ru.job4j.cars.service.*;
 import ru.job4j.cars.validator.PostDtoValidator;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.io.IOException;
+import java.util.Set;
 
 
 @Controller
@@ -29,7 +36,9 @@ public class PostController {
     private final PostDtoValidator postDtoValidator;
 
     private final ModelMapperPostDtoConverter converter;
+    private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
+    private static final Logger LOG = LoggerFactory.getLogger(PostController.class);
 
     @GetMapping("/create")
     public String getCreatePostPage(Model model, HttpSession session) {
@@ -46,6 +55,11 @@ public class PostController {
 
     @PostMapping("/create")
     public String create(@ModelAttribute PostDto postDto, Model model) throws IOException {
+        Set<ConstraintViolation<PostDto>> violations = VALIDATOR.validate(postDto);
+        if (!violations.isEmpty()) {
+            logError("PostDto has not passed validation", new ConstraintViolationException(violations));
+            return "errors/404";
+        }
         postDtoValidator.validate(postDto);
         var savedPost = postService.save(postDto,
                 new PhotoDto(postDto.getPhoto().getOriginalFilename(), postDto.getPhoto().getBytes()));
@@ -58,7 +72,11 @@ public class PostController {
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute PostDto postDto) throws IOException {
-        postDtoValidator.validate(postDto);
+        Set<ConstraintViolation<PostDto>> violations = VALIDATOR.validate(postDto);
+        if (!violations.isEmpty()) {
+            logError("PostDto has not passed validation", new ConstraintViolationException(violations));
+            return "errors/404";
+        }
         postService.update(postDto);
         return "redirect:/cars/list";
     }
@@ -102,5 +120,9 @@ public class PostController {
             return "errors/404";
         }
         return "redirect:/cars/list";
+    }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
     }
 }

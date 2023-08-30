@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Engine;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class HibernateEngineRepository implements EngineRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateEngineRepository.class);
+
     private final CrudRepository crudRepository;
 
     @Override
@@ -20,7 +25,7 @@ public class HibernateEngineRepository implements EngineRepository {
             crudRepository.run(session -> session.save(engine));
             return Optional.of(engine);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save engine: " + engine, e);
         }
         return Optional.empty();
     }
@@ -31,7 +36,7 @@ public class HibernateEngineRepository implements EngineRepository {
             crudRepository.run(session -> session.merge(engine));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update engine: " + engine, e);
         }
         return false;
     }
@@ -45,7 +50,7 @@ public class HibernateEngineRepository implements EngineRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to delelteById engine: " + id, e);
         }
         return false;
     }
@@ -59,7 +64,7 @@ public class HibernateEngineRepository implements EngineRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById engine: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,7 +77,7 @@ public class HibernateEngineRepository implements EngineRepository {
                     Engine.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll: ", e);
         }
         return Collections.emptyList();
     }
@@ -86,8 +91,13 @@ public class HibernateEngineRepository implements EngineRepository {
                     Map.of("fName", name)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findByName: " +  name, e);
         }
         return Optional.empty();
     }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
+    }
+
 }

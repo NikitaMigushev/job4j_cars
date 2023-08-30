@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.CarPassport;
 
@@ -14,13 +16,15 @@ import java.util.Optional;
 public class HibernateCarPassportRepository implements CarPassportRepository {
     private final CrudRepository crudRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateCarPassportRepository.class);
+
     @Override
     public Optional<CarPassport> save(CarPassport carPassport) {
         try {
             crudRepository.run(session -> session.save(carPassport));
             return Optional.of(carPassport);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save carPassport: " + carPassport, e);
         }
         return Optional.empty();
     }
@@ -31,7 +35,7 @@ public class HibernateCarPassportRepository implements CarPassportRepository {
             crudRepository.run(session -> session.merge(carPassport));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update carPassport: " + carPassport, e);
         }
         return false;
     }
@@ -45,7 +49,7 @@ public class HibernateCarPassportRepository implements CarPassportRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update deleteById: " + id, e);
         }
         return false;
     }
@@ -59,7 +63,7 @@ public class HibernateCarPassportRepository implements CarPassportRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,8 +76,11 @@ public class HibernateCarPassportRepository implements CarPassportRepository {
                     CarPassport.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll: ", e);
         }
         return Collections.emptyList();
+    }
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
     }
 }

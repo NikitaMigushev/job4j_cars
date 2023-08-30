@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Photo;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class HibernatePhotoRepository implements PhotoRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HibernatePhotoRepository.class);
+
     private final CrudRepository crudRepository;
 
     @Override
@@ -20,7 +25,7 @@ public class HibernatePhotoRepository implements PhotoRepository {
             crudRepository.run(session -> session.save(photo));
             return Optional.of(photo);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save photo: " + photo, e);
         }
         return Optional.empty();
     }
@@ -34,7 +39,7 @@ public class HibernatePhotoRepository implements PhotoRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById photo: " + id, e);
         }
         return Optional.empty();
     }
@@ -45,7 +50,7 @@ public class HibernatePhotoRepository implements PhotoRepository {
             crudRepository.run(session -> session.merge(photo));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update photo: " + photo, e);
         }
         return false;
     }
@@ -59,7 +64,7 @@ public class HibernatePhotoRepository implements PhotoRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to deleteById photo: " + id, e);
         }
         return false;
     }
@@ -72,8 +77,13 @@ public class HibernatePhotoRepository implements PhotoRepository {
                     Photo.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll photo: ", e);
         }
         return Collections.emptyList();
     }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
+    }
+
 }

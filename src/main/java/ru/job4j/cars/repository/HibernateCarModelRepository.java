@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.CarModel;
 
@@ -14,13 +16,15 @@ import java.util.Optional;
 public class HibernateCarModelRepository implements CarModelRepository {
     private final CrudRepository crudRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateCarModelRepository.class);
+
     @Override
     public Optional<CarModel> save(CarModel carModel) {
         try {
             crudRepository.run(session -> session.save(carModel));
             return Optional.of(carModel);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save carModel: " + carModel, e);
         }
         return Optional.empty();
     }
@@ -31,7 +35,7 @@ public class HibernateCarModelRepository implements CarModelRepository {
             crudRepository.run(session -> session.merge(carModel));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update carModel: " + carModel, e);
         }
         return false;
     }
@@ -45,7 +49,7 @@ public class HibernateCarModelRepository implements CarModelRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to deleteById carModel: " + id, e);
         }
         return false;
     }
@@ -59,7 +63,7 @@ public class HibernateCarModelRepository implements CarModelRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById carModel: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,7 +76,7 @@ public class HibernateCarModelRepository implements CarModelRepository {
                     CarModel.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll carModel: ", e);
         }
         return Collections.emptyList();
     }
@@ -86,8 +90,13 @@ public class HibernateCarModelRepository implements CarModelRepository {
                     Map.of("fName", name)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findByName carModel: " + name, e);
         }
         return Optional.empty();
     }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
+    }
+
 }

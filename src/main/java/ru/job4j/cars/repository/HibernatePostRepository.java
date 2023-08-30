@@ -14,7 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 public class HibernatePostRepository implements PostRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(HibernateBrandRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HibernatePostRepository.class.getName());
     private final CrudRepository crudRepository;
 
     @Override
@@ -48,7 +48,7 @@ public class HibernatePostRepository implements PostRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save deleteById: " + id, e);
         }
         return false;
     }
@@ -62,7 +62,7 @@ public class HibernatePostRepository implements PostRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById: " + id, e);
         }
         return Optional.empty();
     }
@@ -75,7 +75,7 @@ public class HibernatePostRepository implements PostRepository {
                     Post.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll: ", e);
         }
         return Collections.emptyList();
     }
@@ -91,7 +91,7 @@ public class HibernatePostRepository implements PostRepository {
             params.put("today", today);
             return crudRepository.query(query, Post.class, params);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to getLasDayPosts: ", e);
         }
         return Collections.emptyList();
     }
@@ -102,7 +102,7 @@ public class HibernatePostRepository implements PostRepository {
             String query = "SELECT p FROM Post p LEFT JOIN FETCH p.photo WHERE p.photo.id IS NOT NULL";
             return crudRepository.query(query, Post.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to getPostsWithPhoto: ", e);
         }
         return Collections.emptyList();
     }
@@ -115,7 +115,7 @@ public class HibernatePostRepository implements PostRepository {
             params.put("brand", brand);
             return crudRepository.query(query, Post.class, params);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to getPostsByBrand: " + brand, e);
         }
         return Collections.emptyList();
     }
@@ -127,12 +127,12 @@ public class HibernatePostRepository implements PostRepository {
             crudRepository.run(session -> session.update(post));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to markSold: " + post, e);
         }
         return false;
     }
 
     private void logError(String message, Throwable e) {
-        logger.error(message, e);
+        LOG.error(message, e);
     }
 }

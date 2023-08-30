@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Owner;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class HibernateOwnerRepository implements OwnerRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateOwnerRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -20,7 +24,7 @@ public class HibernateOwnerRepository implements OwnerRepository {
             crudRepository.run(session -> session.save(owner));
             return Optional.of(owner);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save owner: " + owner, e);
         }
         return Optional.empty();
     }
@@ -31,7 +35,7 @@ public class HibernateOwnerRepository implements OwnerRepository {
             crudRepository.run(session -> session.merge(owner));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update owner: " + owner, e);
         }
         return false;
     }
@@ -45,7 +49,7 @@ public class HibernateOwnerRepository implements OwnerRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to deleteById owner: " + ownerId, e);
         }
         return false;
     }
@@ -59,7 +63,7 @@ public class HibernateOwnerRepository implements OwnerRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById owner: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,7 +76,7 @@ public class HibernateOwnerRepository implements OwnerRepository {
                     Owner.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll owner: ", e);
         }
         return Collections.emptyList();
     }
@@ -86,8 +90,13 @@ public class HibernateOwnerRepository implements OwnerRepository {
                     Map.of("fPassport", passport)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findByPassport owner: " + passport, e);
         }
         return Optional.empty();
     }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
+    }
+
 }

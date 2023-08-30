@@ -1,6 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.CarBody;
 
@@ -14,13 +16,15 @@ import java.util.Optional;
 public class HibernateCarBodyRepository implements CarBodyRepository {
     private final CrudRepository crudRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateCarBodyRepository.class);
+
     @Override
     public Optional<CarBody> save(CarBody carBody) {
         try {
             crudRepository.run(session -> session.save(carBody));
             return Optional.of(carBody);
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to save carBody: " + carBody, e);
         }
         return Optional.empty();
     }
@@ -31,7 +35,7 @@ public class HibernateCarBodyRepository implements CarBodyRepository {
             crudRepository.run(session -> session.merge(carBody));
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to update carBody: " + carBody, e);
         }
         return false;
     }
@@ -45,7 +49,7 @@ public class HibernateCarBodyRepository implements CarBodyRepository {
             );
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to deleteById carBody: " + id, e);
         }
         return false;
     }
@@ -59,7 +63,7 @@ public class HibernateCarBodyRepository implements CarBodyRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById carBody: " + id, e);
         }
         return Optional.empty();
     }
@@ -72,8 +76,12 @@ public class HibernateCarBodyRepository implements CarBodyRepository {
                     CarBody.class
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findAll carBody: ", e);
         }
         return Collections.emptyList();
+    }
+
+    private void logError(String message, Throwable e) {
+        LOG.error(message, e);
     }
 }

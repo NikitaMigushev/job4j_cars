@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Repository
 public class HibernateBrandRepository implements BrandRepository {
-    private static final Logger logger = LoggerFactory.getLogger(HibernateBrandRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateBrandRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -62,7 +62,7 @@ public class HibernateBrandRepository implements BrandRepository {
                     Map.of("fId", id)
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logError("Failed to findById brand with id: " + id, e);
         }
         return Optional.empty();
     }
@@ -81,6 +81,6 @@ public class HibernateBrandRepository implements BrandRepository {
     }
 
     private void logError(String message, Throwable e) {
-        logger.error(message, e);
+        LOG.error(message, e);
     }
 }

@@ -1,8 +1,7 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Color;
 
@@ -11,11 +10,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Repository
+@AllArgsConstructor
+@Slf4j
 public class HibernateColorRepository implements ColorRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HibernateColorRepository.class);
     private final CrudRepository crudRepository;
 
     @Override
@@ -96,6 +95,6 @@ public class HibernateColorRepository implements ColorRepository {
     }
 
     private void logError(String message, Throwable e) {
-        LOG.error(message, e);
+        log.error(message, e);
     }
 }

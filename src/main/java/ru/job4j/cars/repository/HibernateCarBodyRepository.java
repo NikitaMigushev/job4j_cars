@@ -1,8 +1,7 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.CarBody;
 
@@ -11,12 +10,11 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-@AllArgsConstructor
 @Repository
+@AllArgsConstructor
+@Slf4j
 public class HibernateCarBodyRepository implements CarBodyRepository {
     private final CrudRepository crudRepository;
-
-    private static final Logger LOG = LoggerFactory.getLogger(HibernateCarBodyRepository.class);
 
     @Override
     public Optional<CarBody> save(CarBody carBody) {
@@ -82,6 +80,6 @@ public class HibernateCarBodyRepository implements CarBodyRepository {
     }
 
     private void logError(String message, Throwable e) {
-        LOG.error(message, e);
+        log.error(message, e);
     }
 }

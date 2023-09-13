@@ -1,8 +1,7 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Photo;
 
@@ -13,9 +12,8 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
+@Slf4j
 public class HibernatePhotoRepository implements PhotoRepository {
-
-    private static final Logger LOG = LoggerFactory.getLogger(HibernatePhotoRepository.class);
 
     private final CrudRepository crudRepository;
 
@@ -83,7 +81,7 @@ public class HibernatePhotoRepository implements PhotoRepository {
     }
 
     private void logError(String message, Throwable e) {
-        LOG.error(message, e);
+        log.error(message, e);
     }
 
 }

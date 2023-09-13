@@ -1,8 +1,7 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +25,7 @@ import java.util.Set;
 @Controller
 @RequestMapping("/cars")
 @AllArgsConstructor
+@Slf4j
 public class PostController {
     private final PostService postService;
     private final BrandService brandService;
@@ -37,8 +37,6 @@ public class PostController {
 
     private final ModelMapperPostDtoConverter converter;
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
-
-    private static final Logger LOG = LoggerFactory.getLogger(PostController.class);
 
     @GetMapping("/create")
     public String getCreatePostPage(Model model, HttpSession session) {
@@ -123,6 +121,6 @@ public class PostController {
     }
 
     private void logError(String message, Throwable e) {
-        LOG.error(message, e);
+        log.error(message, e);
     }
 }

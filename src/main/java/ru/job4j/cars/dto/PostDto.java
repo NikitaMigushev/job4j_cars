@@ -16,9 +16,9 @@ public class PostDto {
     private int id;
     private Integer carId;
     @NotNull
-    @Min(1000)
+    @Min(1)
     private Integer userId;
-    @Min(1000)
+    @Min(1)
     private float price;
     @NotNull
     @Min(1)

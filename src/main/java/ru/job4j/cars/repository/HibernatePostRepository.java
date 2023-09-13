@@ -1,8 +1,7 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
@@ -12,9 +11,8 @@ import java.util.*;
 
 @Repository
 @AllArgsConstructor
+@Slf4j
 public class HibernatePostRepository implements PostRepository {
-
-    private static final Logger LOG = LoggerFactory.getLogger(HibernatePostRepository.class.getName());
     private final CrudRepository crudRepository;
 
     @Override
@@ -133,6 +131,6 @@ public class HibernatePostRepository implements PostRepository {
     }
 
     private void logError(String message, Throwable e) {
-        LOG.error(message, e);
+        log.error(message, e);
     }
 }

@@ -6,3 +6,5 @@
 Объявление имеет статус продано или нет.
 
 Check githubworkflows
+
+Try java-maven-actions
